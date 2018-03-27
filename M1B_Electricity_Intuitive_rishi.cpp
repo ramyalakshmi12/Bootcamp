@@ -21,38 +21,36 @@
 #define v(i) vector<i>
 #define N 1100
 using namespace std;
-long long dp[102][102];
-
-long long calc(long long n, long long r) {
-    if(r == 0) 
-        return 1;
-    if(dp[n][r])
-        return dp[n][r];
-    else {
-        dp[n][r] = (calc(n, r - 1) * (n - r + 1)) / r;
-        return dp[n][r];
-    }
-}
 
 int main() {
-    I n, k;
+    I n, m;
     cint(n);
-    cint(k);
-    I ar[k];
-    FOR(i, 0, k) {
-        cint(ar[i]);
+    cint(m);
+    LL ar[n], br[m];
+    FOR(i, 0, n) {
+        clong(ar[i]);
     }
-    dp[0][0] = 1;
-    I prev = 1;
-    LL ans = 0;
-    FOR(i, 0, k) {
-        if(i != 0) 
-            prev = ar[i - 1];
-        FOR(j, prev, ar[i]) {
-            I a = n - j + 1;
-            I b = k - i - 1;
-            ans += calc(a + b - 1, b);
+    FOR(i, 0, m) {
+        clong(br[i]);
+    }
+    sort(ar, ar+n, greater<int>());
+    sort(br, br+m, greater<int>());
+    LL ans = 1;
+    FOR(i, 0, m) {
+        ans += br[i];
+    }
+    LL need = m;
+    LL j = 0, ansu = 1;
+    FOR(i, 0, n) {
+        LL k = ar[i];
+        if(k != 0 && j < m){
+            ansu--;
+        while(k != 0 && j < m) {
+            ansu += br[j];
+            j++;
+            k--;
+        }
         }
     }
-    cout<<ans<<endl;
+    cout<<ansu<<endl;
 }
